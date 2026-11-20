@@ -189,7 +189,7 @@
       <div class="stat warn"><div class="n">0</div><div class="l">Dropped off eligible list 20 Nov</div></div>
       <div class="stat"><div class="n">210</div><div class="l">Never on eligible list</div></div>
     </div>
-    <p class="note"><b>Not on this page:</b> the other <b>59 Approved</b> and <b>58 Billed</b> consumers — Approved readings generate bills automatically, so no action is needed for them. The 59 you already marked done stay on this page even though RMS now shows them Billed or Approved, so your marks are not lost.</p>
+    <p class="note"><b>Not on this page:</b> the other <b>59 Approved</b> and <b>58 Billed</b> consumers — Approved readings generate bills automatically, so no action is needed for them. All <b>89 consumers you marked done are on this page</b>, including the 59 whose RMS flag is now Billed or Approved, so your marks are not lost.</p>
     <p class="note"><b>Eligible list refreshed 20 Nov 2026:</b> of these 381, <b>171 are still on</b> the eligible (non-communicating) list, and <b>none dropped off it on 20 Nov</b> — every consumer who was on the earlier list is still on it. The other <b>210 were never on</b> either eligible list.</p>
   </header>
 
@@ -270,7 +270,7 @@
   <div class="empty" id="empty">No consumers match these filters. Clear the search or a filter to see more.</div>
 
   <footer>
-    <p><b>Sources:</b> Workmaster Field Reports (November 2026, latest report per consumer — billable set of 495) cross-checked against the RMS Smart Prepaid manual list (19 Nov 2026) and eligible snapshot exported 20 Nov 2026. 495 billable − 116 Billed − 60 Approved = 319, plus 59 done-marked consumers kept on this page and 3 kept from the earlier list = the 381 on this page. Photo links open the field-visit photo on Google Drive in a new tab.</p>
+    <p><b>Sources:</b> Workmaster Field Reports (November 2026, latest report per consumer — billable set of 495) cross-checked against the RMS Smart Prepaid manual list (19 Nov 2026) and eligible snapshot exported 20 Nov 2026. 495 billable − 116 Billed − 60 Approved = 319, plus the 59 done-marked consumers whose RMS flag is now Billed or Approved, plus 3 done-marked consumers kept from the earlier list = the 381 on this page. All 89 done-marked consumers are on this page. Photo links open the field-visit photo on Google Drive in a new tab.</p>
     <p>“Days elapsed” for the estimator is counted from the previous reading date to 18 Nov 2026. “Done” marks are shared live through Firebase (Cloud Firestore): when anyone marks a consumer done — or undoes it — every open copy of this page updates straight away. Only the consumer number and the done flag are stored in the shared backend; no names, balances or photo links go there. If the backend can't be reached, the page falls back to the marks saved in this browser (localStorage) on this device, and the sync badge above the list shows which state you're seeing.</p>
   </footer>
 </div>
