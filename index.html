@@ -170,6 +170,26 @@
     select{flex:1 1 45%}
   }
   @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+  /* ---------- layout: filters in a right sidebar (revamp 22 Nov 2026) ---------- */
+  .filters-toggle{display:none}
+  .sidehint{margin:10px 2px 0;font-size:13px;color:var(--ink2)}
+  @media (min-width:1024px){
+    .main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start;margin-top:14px}
+    .main .listcol{grid-column:1;grid-row:1;min-width:0}
+    .main .controls{grid-column:2;grid-row:1;position:sticky;top:16px;margin:0;padding:0;background:transparent;z-index:10}
+    .main .controls .row1,.main .controls .row2{flex-direction:column}
+    .main .controls .search{flex:none}
+    .main .controls select,.main .controls .tgl{width:100%}
+    .main .listcol .list{margin-top:0}
+    .main .listcol .countline{margin-top:0}
+  }
+  @media (max-width:1023px){
+    .main{margin-top:10px}
+    .filters-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:9px;padding:9px 14px;font-weight:700;font-size:14.5px;margin-top:14px}
+    .main .controls{display:none;margin:0;padding:0;background:transparent;position:static}
+    body.filters-open .main .controls{display:block}
+    .main .listcol .list{margin-top:10px}
+  }
 </style>
 </head>
 <body>
@@ -219,13 +239,15 @@
     <div class="mrr-note" id="c-mrrnote" style="display:none"></div>
   </section>
 
-  <div class="controls">
+  <button class="filters-toggle" id="filters-toggle" type="button" aria-expanded="false" aria-controls="filters">Filters</button>
+  <div class="main">
+    <div class="controls" id="filters">
     <div class="controls-inner">
       <div class="row1">
         <div class="search"><input id="q" type="search" placeholder="Search consumer no, name, meter no, DTR…" aria-label="Search" /></div>
         <button class="tgl" id="f-est" type="button" aria-pressed="false">Estimates only (81)</button>
         <button class="tgl" id="f-dropped" type="button" aria-pressed="false">Dropped 22 Nov only (1)</button>
-        <button class="tgl" id="f-hidedone" type="button" aria-pressed="false">Hide done</button>
+        <button class="tgl" id="f-hidedone" type="button" aria-pressed="true">Hide done</button>
       </div>
       <div class="row2">
         <select id="f-group" aria-label="Filter by priority">
@@ -261,13 +283,16 @@
           <option value="visit">Sort: latest visit (newest first)</option>
         </select>
       </div>
+      <p class="sidehint">Done-marked consumers are hidden by default. They are still on this page and in the eligible list — switch “Hide done” off to see them again.</p>
       <div class="progress"><span id="prog-txt">0 of 390 marked done</span><span class="syncpill" id="sync-status" role="status"><i></i><span id="sync-txt">Connecting…</span></span><div class="bar"><i id="prog-bar"></i></div></div>
     </div>
-    <p class="countline" id="countline"></p>
+    </div>
+    <div class="listcol">
+      <p class="countline" id="countline"></p>
+      <main class="list" id="list"></main>
+      <div class="empty" id="empty">No consumers match these filters. Clear the search or a filter to see more.</div>
+    </div>
   </div>
-
-  <main class="list" id="list"></main>
-  <div class="empty" id="empty">No consumers match these filters. Clear the search or a filter to see more.</div>
 
   <footer>
     <p><b>Sources:</b> Workmaster Field Reports (November 2026, latest report per consumer — billable set of 519) cross-checked against the RMS Smart Prepaid manual list (21 Nov 2026) and eligible snapshot exported 22 Nov 2026. 519 billable − 153 Billed − 93 Approved = 273, plus the 112 done-marked consumers whose RMS flag is now Billed or Approved, plus 5 done-marked consumers kept from the earlier list = the 390 on this page. All 157 done-marked consumers are on this page. Photo links open the field-visit photo on Google Drive in a new tab.</p>
@@ -632,6 +657,8 @@ var DATA = [{"consumer_no":"040000000052","name":"","billing_basis":"Normal","ta
   hideBtn.addEventListener('click', function(){ var v=hideBtn.getAttribute('aria-pressed')==='true'; hideBtn.setAttribute('aria-pressed', String(!v)); applyFilters(); });
   dropBtn.addEventListener('click', function(){ var v=dropBtn.getAttribute('aria-pressed')==='true'; dropBtn.setAttribute('aria-pressed', String(!v)); applyFilters(); });
   applyFilters(); updateProgress();
+  var ftBtn=document.getElementById('filters-toggle');
+  if(ftBtn){ ftBtn.addEventListener('click', function(){ var open=document.body.classList.toggle('filters-open'); ftBtn.setAttribute('aria-expanded', String(open)); ftBtn.textContent=open?'Hide filters':'Filters'; }); }
   initFirestore();
 
   /* ---------- standalone calculator (script logic) ---------- */
